@@ -25,7 +25,7 @@
 
     // Custom marker
     var wamsLogo = {
-      url: 'wams.png',
+      url: 'images/wams.png',
       // This marker is 20 pixels wide by 32 pixels high.
       size: new google.maps.Size(64, 64),
       // The origin for this image is (0, 0).
