@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>WAMS Tirol - Geolocation of Containers</title>
+        <style>
+            html, body {
+                height: 100%;
+                padding: 0;
+                width: 80%;
+                margin-left: 10%;
+                margin-right: 10%;
+            }
+            h1 { text-align: center }
+
+            #map {
+                height: 100%;
+                width: 100%;
+            }
+            </style>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzSgkSMi7n_F5nbGDoUIzaWrYV0iEKTb4&signed_in=true"></script>
+            <script src="js/wams-place-containers.js"></script>
+
+
+        </head>
+        <body>
+            <h1>WAMS Geolocation of Containers</h1>
+            This page shows an example how to place custom markers on a Google Map via the <a href="https://developers.google.com/maps/?hl=de">Google Maps API</a>. It covers two aspects: collecting latitude and longitude from given addresses and place markers based on the geo information in a second step. We could also retrieve the location of the addresses on demand, but as the addresses do not change often, we reduce the load by collecting the data first. More details can be found on my <a href="http://www.stefanproell.at">blog</a>.
+
+            <h2>Background Information</h2>
+            I recently moved and naturally there was a lot of clothes which I do not need (read: do not fit in) any more. Throwing them away would be a waste and luckily, there is a social business called <a href="http://www.wams.at/">WAMS</a> which (besides a lot of other nice projects) supports reuse and recycling. WAMS provides and maintains containers for collecting clothes on many locations in Tirol. Unfortunately, there is not yet a map available to find them easily. I took this as an opportunity for a little side project in Javascript.  I am not affiliated with WAMS, but of course the code and data is open sourced <a href="https://github.com/stefanproell/WAMS-Containerstandorte">here</a>.
+
+
+            <h2>Retrieve geolocation information</h2>
+            The Google API allows to retrieve latitude and longitude data from any given address. If the address was found in Google's database, the Server returns a <a href="https://developers.google.com/maps/documentation/javascript/3.22/reference?hl=de#GeocoderResult">GeocoderResult object</a> containing the geometry information about the found object. This <a href="https://developers.google.com/maps/documentation/javascript/3.22/reference?hl=de#GeocoderGeometry">GeocoderGeometry</a> contains the latitude and longitude data of the address.
+            The first step retrieves the data from Google's API by using the <a href="https://developers.google.com/maps/documentation/javascript/3.22/reference">Geocoder class</a>. To do so, the following JSON structure is iterated and the addresses are being fed to the Geocoding service.
+            <pre>
+            {
+                "containerStandorte": [
+                    {
+                        "id": "1",
+                        "name": "Pfarre Allerheiligen",
+                        "address": "St.-Georgs-Weg 15, 6020, Innsbruck, Austria",
+                        "latitude":"",
+                        "longitude"":
+                    },
+                    {
+                        "id": "2",
+                        "name": "Endhaltestelle 3er Linie Amras",
+                        "address": "Philippine-Welser-Straße 49, 6020, Innsbruck, Austria",
+                        "latitude": "",
+                        "longitude": ""
+            }
+            </pre>
+            The missing latitude and longitude values are retrieved and the JSON gets updated. The final result looks like this:
+            <pre>
+            {
+                "containerStandorte": [
+                    {
+                        "id": "1",
+                        "name": "Pfarre Allerheiligen",
+                        "address": "St.-Georgs-Weg 15, 6020, Innsbruck, Austria",
+                        "latitude": 47.2680316,
+                        "longitude": 11.355563999999958
+                    },
+                    {
+                        "id": "2",
+                        "name": "Endhaltestelle 3er Linie Amras",
+                        "address": "Philippine-Welser-Straße 49, 6020, Innsbruck, Austria",
+                        "latitude": 47.2589929,
+                        "longitude": 11.42600379999999
+                    }
+                    ...
+            }
+            </pre>
+            Now that we have the data ready, we can proceed with the second step.
+            <h2>Placing the Markers</h2>
+            In the second step, we iterate over the JSON data set and provide the data to the Google Maps API. A custom image, the WAMS logo, now replaces Google's standard marker and shows where the containers can be found. The example below only contains a few container locations, as I do not yet have all the data available.
+            <h1>Map with Custom Markers</h1>
+            <div id="map"></div>
+        </body>
+</html>
