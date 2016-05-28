@@ -1,8 +1,4 @@
-/**
-© 2016 Stefan Pröll, Austria
-*/
-
-var wamsJSON = {
+{
     "containerStandorte": [
         {
             "id": "1",
@@ -306,11 +302,11 @@ var wamsJSON = {
              "longitude": 11.404102400000056
          },
          {
-            "id": "43",
-            "name": "Wohnanlage Neue Heimat, Klappholzstraße 44",
-            "address": "Klappholzstraße 44, 6020 Innsbruck, Austria",
-            "latitude": 47.271518,
-            "longitude": 11.420990899999993
+        "id": "43",
+        "name": "Wohnanlage Neue Heimat, Klappholzstraße 44",
+        "address": "Klappholzstraße 44, 6020 Innsbruck, Austria",
+        "latitude": 47.271518,
+        "longitude": 11.420990899999993
         },
         {
             "id": "44",
@@ -356,67 +352,3 @@ var wamsJSON = {
         }
     ]
 }
-
-
-        function initialize() {
-          var innsbruck = { lat: 47.2656733, lng: 11.3941983 };
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
-            center: innsbruck
-          });
-
-          // Load Google Geocoder Library
-          var geocoder = new google.maps.Geocoder();
-          // Parse the data into a JSON
-
-
-
-
-;
-          // Iterate over all containers
-          for(var i =0; i < wamsJSON.containerStandorte.length;i++){
-              var container = wamsJSON.containerStandorte[i];
-              placeMarkerOnMap(geocoder, map, container);
-          };
-        }
-
-    // Custom marker
-    var wamsLogo = {
-      url: 'images/wams.png',
-      // This marker is 20 pixels wide by 32 pixels high.
-      size: new google.maps.Size(64, 64),
-      // The origin for this image is (0, 0).
-      origin: new google.maps.Point(0, 0),
-      // The anchor for this image is the base of the flagpole at (0, 32).
-      anchor: new google.maps.Point(64, 70)
-    };
-
-    // Define the shape for the marker
-    var shape = {
-      coords: [1, 1, 1, 64, 64, 64, 64, 1],
-      type: 'poly'
-    };
-
-    // Place marker on the map
-    function placeMarkerOnMap(geocoder, resultsMap, container) {
-        // Create Google position object with latitude and longitude from the container object
-        var positionLatLng = new google.maps.LatLng(parseFloat(container.latitude),parseFloat(container.longitude));
-        // Create marker with the position, logo and address
-        var marker = new google.maps.Marker({
-          map: resultsMap,
-          position: positionLatLng,
-          icon: wamsLogo,
-          shape: shape,
-          title: container.address,
-          animation: google.maps.Animation.DROP
-        });
-    }
-
-    function jsonEscape(str)  {
-        alert('escpe');
-    return str.replace(/\n/g, "\\\\n").replace(/\r/g, "\\\\r").replace(/\t/g, "\\\\t");
-}
-
-
-    // Place marker on the map
-    google.maps.event.addDomListener(window, 'load', initialize);
